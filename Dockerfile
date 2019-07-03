@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-ENV OMNIDB_VERSION=2.14.0
+ENV OMNIDB_VERSION=2.16.0
 ENV SERVICE_USER=omnidb
 
 WORKDIR /${SERVICE_USER}
@@ -19,10 +19,12 @@ RUN wget -q https://omnidb.org/dist/${OMNIDB_VERSION}/omnidb-server_${OMNIDB_VER
   && dpkg -i omnidb-server_${OMNIDB_VERSION}-debian-amd64.deb \
   && rm -rf omnidb-server_${OMNIDB_VERSION}-debian-amd64.deb
 
+COPY --chown=omnidb:root /dockup /dockup
+
 USER ${SERVICE_USER}
-  
+
 EXPOSE 8000
 EXPOSE 25482
 
 ENTRYPOINT [ "/usr/bin/dumb-init", "--" ]
-CMD ["omnidb-server", "-H", "0.0.0.0"]
+CMD /dockup/run

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -x
+set -e
+
+omnidb-config-server -d /dockup \
+                     -c admin \
+                     $OMNIDB_TECHNOLOGY \
+                     $OMNIDB_HOST \
+                     $OMNIDB_PORT \
+                     $OMNIDB_DATABASE \
+                     $OMNIDB_USER
+
+omnidb-server -H "0.0.0.0" -d /dockup
